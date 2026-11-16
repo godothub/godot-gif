@@ -1,0 +1,539 @@
+# Godot-GIF Simplified Chinese translations.
+# Distributed under the project license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Godot-GIF\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. doc_classes/GIFWriter.xml
+msgid "Adds a comment block to the GIF. Must be called after setting canvas size but before closing."
+msgstr "向 GIF 添加注释块。必须在设置画布尺寸之后、关闭文件或缓冲区之前调用。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Begins writing a new frame with the specified position and dimensions. Must be followed by [method write_frame_pixels] or [method write_frame_image], then [method end_frame]."
+msgstr "以指定的位置和尺寸开始写入新的一帧。随后必须调用 [method write_frame_pixels] 或 [method write_frame_image]，再调用 [method end_frame]。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Chooses a random frame at each step. The same frame can be chosen again, and [member loop_count] is ignored."
+msgstr "每次切换时随机选择一帧。可能重复选中同一帧，且不受 [member loop_count] 限制。"
+
+#. doc_classes/GIFReader.xml
+msgid "Closes the currently opened GIF file or buffer. Returns [constant GIFReader.SUCCEEDED] on success."
+msgstr "关闭当前打开的 GIF 文件或缓冲区。成功时返回 [constant GIFReader.SUCCEEDED]。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Closes the file or buffer and completes the GIF writing. Must be called to finalize the output."
+msgstr "关闭文件或缓冲区并完成 GIF 写入。必须调用此方法才能完成输出。"
+
+#. doc_classes/ResourceImporterGIFTexture.xml
+msgid "Compresses the imported resource on disk. The GIF data and decoded frames retain their original quality."
+msgstr "压缩磁盘上的导入资源。GIF 数据和解码出的帧保持原有质量。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Control node for animated GIF playback."
+msgstr "用于播放 GIF 动画的控件节点。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Controls how the GIF is drawn inside the control's rectangle, including scaling, tiling, and alignment. See [enum StretchMode]."
+msgstr "控制 GIF 在控件矩形内的绘制方式，包括缩放、平铺和对齐。见 [enum StretchMode]。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Controls how the GIF's dimensions contribute to the control's minimum size. See [enum ExpandMode]. Use [member stretch_mode] to control how the GIF is drawn inside the control."
+msgstr "控制 GIF 的尺寸如何影响控件的最小尺寸。见 [enum ExpandMode]。使用 [member stretch_mode] 控制 GIF 在控件内的绘制方式。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Displays the frame at the given zero-based index and restarts the frame timer. The playback and pause states are preserved."
+msgstr "显示指定索引的帧并重新计时。帧索引从 0 开始，播放和暂停状态保持不变。"
+
+#. doc_classes/GIFReader.xml
+msgid "Disposal method not specified in the GIF."
+msgstr "未指定帧处置方式。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Disposal method not specified."
+msgstr "未指定帧处置方式。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Do not dispose, keep current frame visible."
+msgstr "保留当前帧，使其继续可见。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Enables playback from the current frame, clears [member paused], and restarts the frame timer. This requires a valid [member gif] with at least one frame."
+msgstr "从当前帧启用播放，清除 [member paused]，并重新计时。此方法需要一个有效且至少包含一帧的 [member gif]。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Ends the current frame writing. Must be called after writing frame data before beginning another frame."
+msgstr "结束当前帧的写入。必须在写入帧数据后、开始下一帧前调用。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Failed to close the file."
+msgstr "关闭文件失败。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Failed to open the specified file."
+msgstr "打开指定文件失败。"
+
+#. doc_classes/GIFReader.xml
+msgid "Failed to read from file."
+msgstr "读取文件失败。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Failed to write to file."
+msgstr "写入文件失败。"
+
+#. doc_classes/GIFReader.xml
+msgid "File is not a valid GIF file."
+msgstr "文件不是有效的 GIF 文件。"
+
+#. doc_classes/GIFReader.xml
+msgid "File is not open for reading."
+msgstr "文件未以读取模式打开。"
+
+#. doc_classes/GIFWriter.xml
+msgid "File is not open for writing."
+msgstr "文件未以写入模式打开。"
+
+#. doc_classes/GIFPlayer.xml
+msgid ""
+"GIFPlayer is a [Control] node that displays and plays animated GIFs. Provides playback controls, multiple play modes, and display options similar to [TextureRect].\n"
+"Automatically advances frames based on the GIF's delay timing."
+msgstr ""
+"GIFPlayer 是一个用于显示和播放 GIF 动画的 [Control] 节点。它提供播放控制、多种播放模式，以及类似 [TextureRect] 的显示选项。\n"
+"根据 GIF 中的帧延迟自动切换帧。"
+
+#. doc_classes/GIFReader.xml
+msgid ""
+"GIFReader provides methods to open GIF files from disk or memory, extract frames as [Image] objects, and retrieve metadata such as delays, disposal methods, and loop count.\n"
+"Supports both file-based and buffer-based input for flexible loading scenarios including network and archive sources."
+msgstr ""
+"GIFReader 提供从磁盘或内存打开 GIF 的方法，可以将各帧提取为 [Image] 对象，并获取帧延迟、帧处置方式和循环次数等元数据。\n"
+"支持文件和缓冲区两种输入，可从网络、归档文件等来源加载。"
+
+#. doc_classes/GIFTexture.xml
+msgid "GIFTexture extends [Texture2D] to provide animated GIF support as a Godot resource. It decodes frames on demand and exposes them as [ImageTexture] objects. Assign it to a [TextureRect] to display [member frame], or to a [GIFPlayer] for automatic playback."
+msgstr "GIFTexture 继承自 [Texture2D]，是支持 GIF 动画的 Godot 资源。它按需解码帧，并以 [ImageTexture] 对象的形式提供。将它赋给 [TextureRect] 可显示 [member frame]，赋给 [GIFPlayer] 则可自动播放。"
+
+#. doc_classes/GIFWriter.xml
+msgid ""
+"GIFWriter provides methods to create GIF files from [Image] objects. Supports both incremental frame-by-frame writing and one-shot complete GIF creation.\n"
+"Features include customizable frame delays, loop counts, transparency, disposal methods, and color quantization."
+msgstr ""
+"GIFWriter 提供从 [Image] 对象创建 GIF 文件的方法，既可逐帧写入，也可一次性写入完整的 GIF。\n"
+"支持自定义帧延迟、循环次数、透明色、帧处置方式和颜色量化。"
+
+#. doc_classes/ResourcePreviewGIFTexture.xml
+msgid "Generates editor previews for GIF textures."
+msgstr "为 GIF 纹理生成编辑器预览。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "If [code]true[/code], flips the GIF horizontally."
+msgstr "为 [code]true[/code] 时，水平翻转 GIF。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "If [code]true[/code], flips the GIF vertically."
+msgstr "为 [code]true[/code] 时，垂直翻转 GIF。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "If [code]true[/code], pauses active playback and keeps the current frame visible. Set this to [code]false[/code] to resume. This property reads as [code]false[/code] when playback is stopped."
+msgstr "为 [code]true[/code] 时暂停正在播放的动画，并继续显示当前帧。设为 [code]false[/code] 可恢复播放。播放停止时，此属性的读取值为 [code]false[/code]。"
+
+#. doc_classes/GIFReader.xml
+msgid "Image data is defective or corrupted."
+msgstr "图像数据有缺陷或已损坏。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Image descriptor is already active."
+msgstr "图像描述符已启用。"
+
+#. doc_classes/ResourceImporterGIFTexture.xml
+msgid "Imports GIF files as [GIFTexture] resources."
+msgstr "将 GIF 文件导入为 [GIFTexture] 资源。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Invalid dimensions (0 or exceeds 65535)."
+msgstr "尺寸无效（为 0 或超过 65535）。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Keep the original size, centered in the rect."
+msgstr "保持原始尺寸，在控件矩形中居中显示。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Keep the original size, position at top-left."
+msgstr "保持原始尺寸，置于左上角。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Lets the control shrink below the GIF's original size."
+msgstr "允许控件缩小到 GIF 的原始尺寸以下。"
+
+#. doc_classes/GIFWriter.xml
+msgid "No file is currently open."
+msgstr "当前没有打开的文件。"
+
+#. doc_classes/GIFReader.xml
+msgid "No global or local color map found."
+msgstr "找不到全局或局部颜色表。"
+
+#. doc_classes/GIFWriter.xml
+msgid "No global or local color map set."
+msgstr "未设置全局或局部颜色表。"
+
+#. doc_classes/GIFReader.xml
+msgid "No image descriptor found."
+msgstr "找不到图像描述符。"
+
+#. doc_classes/GIFWriter.xml
+msgid "No image descriptor set."
+msgstr "未设置图像描述符。"
+
+#. doc_classes/GIFReader.xml
+msgid "No screen descriptor found."
+msgstr "找不到屏幕描述符。"
+
+#. doc_classes/GIFWriter.xml
+msgid "No screen descriptor set."
+msgstr "未设置屏幕描述符。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Not enough memory to allocate required structures."
+msgstr "内存不足，无法分配所需的数据结构。"
+
+#. doc_classes/GIFWriter.xml
+msgid "One-shot method to write all frames. Must be called after opening a file or buffer and setting canvas size."
+msgstr "一次性写入所有帧。必须在打开文件或缓冲区并设置画布尺寸后调用。"
+
+#. doc_classes/GIFReader.xml
+msgid "Opens a GIF file from the specified path. Returns an error code indicating success or failure."
+msgstr "打开指定路径的 GIF 文件。返回表示成功或失败的错误码。"
+
+#. doc_classes/GIFReader.xml
+msgid "Opens a GIF from a memory buffer. Useful for loading from network downloads or archive files."
+msgstr "从内存缓冲区打开 GIF。可用于从网络下载或归档文件中加载。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Opens a file for writing. The file will be overwritten if it exists."
+msgstr "打开文件以供写入。如果文件已存在，则会覆盖。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Opens a memory buffer for writing. Use [method get_output_buffer] to retrieve the result after closing."
+msgstr "打开内存缓冲区以供写入。关闭后可使用 [method get_output_buffer] 获取结果。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Operation completed successfully."
+msgstr "操作成功完成。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Palette contains more than 256 colors."
+msgstr "调色板包含的颜色超过 256 种。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Pixel data size exceeds width * height."
+msgstr "像素数据量超过宽度与高度的乘积。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Play forward then backward repeatedly."
+msgstr "重复正序和倒序播放。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Play frames in order."
+msgstr "按正序播放各帧。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Play frames in reverse order."
+msgstr "按倒序播放各帧。"
+
+#. doc_classes/GIFReader.xml
+msgid "Reads GIF files and extracts frame data."
+msgstr "读取 GIF 文件并提取帧数据。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Restore to background color before rendering next frame."
+msgstr "渲染下一帧前恢复为背景色。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFWriter.xml
+msgid "Restore to previous frame before rendering next frame."
+msgstr "渲染下一帧前恢复为前一帧。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns a [Dictionary] containing the specified frame's graphics control data: [code]disposal_mode[/code], [code]delay_time_ms[/code], [code]transparent_color[/code] (the palette index, or [code]-1[/code] if there is no transparent color), and [code]user_input_flag[/code]. Returns an empty dictionary if this data is unavailable."
+msgstr "返回包含指定帧图形控制数据的 [Dictionary]，其中有 [code]disposal_mode[/code]、[code]delay_time_ms[/code]、[code]transparent_color[/code]（调色板索引，无透明色时为 [code]-1[/code]）和 [code]user_input_flag[/code]。无此数据时返回空字典。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns a [Dictionary] describing the global color table. It contains [code]color_count[/code], [code]bits_per_pixel[/code], [code]sort_flag[/code], and [code]color[/code] (the first color in the table). Returns an empty dictionary if there is no global color table."
+msgstr "返回描述全局颜色表的 [Dictionary]，包含 [code]color_count[/code]、[code]bits_per_pixel[/code]、[code]sort_flag[/code] 和 [code]color[/code]（颜色表中的第一个颜色）。没有全局颜色表时返回空字典。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns a [Dictionary] with [code]width[/code], [code]height[/code], [code]color_resolution[/code], [code]background_color_index[/code], [code]frame_count[/code], [code]loop_count[/code], [code]pixel_aspect_ratio[/code], and [code]has_global_color_map[/code]. It also includes [code]comments[/code] when the GIF contains comments. Returns an empty dictionary when no GIF is open."
+msgstr "返回一个 [Dictionary]，包含 [code]width[/code]、[code]height[/code]、[code]color_resolution[/code]、[code]background_color_index[/code]、[code]frame_count[/code]、[code]loop_count[/code]、[code]pixel_aspect_ratio[/code] 和 [code]has_global_color_map[/code]。GIF 包含注释时还会返回 [code]comments[/code]。未打开 GIF 时返回空字典。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns all comment text blocks found in the GIF file."
+msgstr "返回 GIF 文件中的所有注释文本块。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns all frames as an array of [Image] objects."
+msgstr "将所有帧作为 [Image] 对象数组返回。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Returns the [ImageTexture] for the currently selected frame."
+msgstr "返回当前选中帧的 [ImageTexture]。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Returns the [ImageTexture] for the specified frame index."
+msgstr "返回指定帧索引对应的 [ImageTexture]。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the background color specified in the GIF global color table."
+msgstr "返回 GIF 全局颜色表中指定的背景色。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Returns the canvas size set by [method set_canvas_size]."
+msgstr "返回通过 [method set_canvas_size] 设置的画布尺寸。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the color resolution bits specified in the GIF header."
+msgstr "返回 GIF 文件头中指定的色彩分辨率位数。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Returns the currently displayed frame index."
+msgstr "返回当前显示的帧索引。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the delay time in milliseconds for the specified frame."
+msgstr "返回指定帧的延迟时间，单位为毫秒。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Returns the delay time in seconds for the specified frame."
+msgstr "返回指定帧的延迟时间，单位为秒。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the disposal method for the specified frame, indicating how the frame should be cleared before the next frame is rendered."
+msgstr "返回指定帧的帧处置方式，指示渲染下一帧前如何清除当前帧。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Returns the loop count from the GIF metadata. 0 means infinite loop."
+msgstr "返回 GIF 元数据中的循环次数。0 表示无限循环。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the loop count specified by the NETSCAPE2.0 or ANIMEXTS1.0 application extension. [code]0[/code] means infinite repetition. Returns [code]1[/code] if no loop count is specified or no GIF is open."
+msgstr "返回 NETSCAPE2.0 或 ANIMEXTS1.0 应用程序扩展中指定的循环次数。[code]0[/code] 表示无限循环。未指定循环次数或未打开 GIF 时返回 [code]1[/code]。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Returns the memory buffer containing the GIF data. Only valid after calling [method open_from_buffer] and [method close]."
+msgstr "返回包含 GIF 数据的内存缓冲区。只有调用 [method open_from_buffer] 和 [method close] 后，返回的结果才有效。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Returns the number of frames written so far."
+msgstr "返回目前已写入的帧数。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the pixel aspect ratio byte from the GIF header."
+msgstr "返回 GIF 文件头中的像素宽高比字节。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the specified frame as an [Image] object. Frame index starts at 0."
+msgstr "将指定帧作为 [Image] 对象返回。帧索引从 0 开始。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Returns the total duration of the animation in seconds."
+msgstr "返回动画的总时长，单位为秒。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Returns the total number of frames in [member gif], or [code]0[/code] if no texture is assigned."
+msgstr "返回 [member gif] 的总帧数。未指定纹理时返回 [code]0[/code]。"
+
+#. doc_classes/GIFReader.xml
+#. doc_classes/GIFTexture.xml
+msgid "Returns the total number of frames in the GIF."
+msgstr "返回 GIF 的总帧数。"
+
+#. doc_classes/GIFReader.xml
+msgid "Returns the virtual canvas size of the GIF as Vector2i(width, height)."
+msgstr "以 Vector2i(width, height) 的形式返回 GIF 的虚拟画布尺寸。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Scale to cover the entire rect while preserving aspect ratio. May crop the image."
+msgstr "保持宽高比缩放以覆盖整个控件矩形，图像可能被裁剪。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Scale to fit while preserving aspect ratio, centered."
+msgstr "保持宽高比缩放以适应控件，并居中显示。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Scale to fit while preserving aspect ratio. May leave empty space."
+msgstr "保持宽高比缩放以适应控件，可能会留白。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Screen descriptor already set, attempted to set second one."
+msgstr "已设置屏幕描述符，无法再次设置。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the canvas size (screen descriptor). Must be called before writing the first frame and can only be called once."
+msgstr "设置画布尺寸（屏幕描述符）。必须在写入第一帧之前调用，且只能调用一次。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the color resolution in bits (1-8, default 8). Must be called before writing frames."
+msgstr "设置色彩分辨率的位数（1 至 8 位，默认为 8 位）。必须在写入帧之前调用。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the delay time in milliseconds for the current frame."
+msgstr "设置当前帧的延迟时间，单位为毫秒。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the disposal method for the current frame."
+msgstr "设置当前帧的帧处置方式。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the global color palette. If not set, each frame must have its own local palette."
+msgstr "设置全局调色板。如果未设置，则每一帧都必须有自己的局部调色板。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the local color palette for the current frame. Maximum 256 colors."
+msgstr "设置当前帧的局部调色板，最多可包含 256 种颜色。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the loop count using the Netscape application extension. 0 means infinite loop."
+msgstr "使用 Netscape 应用程序扩展设置循环次数。0 表示无限循环。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Sets the transparent color index for the current frame. Use -1 for no transparency."
+msgstr "设置当前帧的透明色索引。使用 -1 禁用透明色。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Static method to load a GIF from a file path."
+msgstr "从文件路径加载 GIF 的静态方法。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Static method to load a GIF from a memory buffer."
+msgstr "从内存缓冲区加载 GIF 的静态方法。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Static method to save a GIF file from an array of images. Delays are specified in milliseconds."
+msgstr "将图像数组保存为 GIF 文件的静态方法。帧延迟以毫秒为单位。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Static method to write a GIF to a memory buffer. Returns a Dictionary with [code]error[/code] (GIFError) and [code]data[/code] (PackedByteArray)."
+msgstr "将 GIF 写入内存缓冲区的静态方法。返回包含 [code]error[/code]（GIFError）和 [code]data[/code]（PackedByteArray）的字典。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Stops playback and resets to the first frame."
+msgstr "停止播放并回到第一帧。"
+
+#. doc_classes/ResourceImporterGIFTexture.xml
+msgid "Stores the original GIF data and its metadata in a [GIFTexture] resource so the frames can be decoded on demand."
+msgstr "在 [GIFTexture] 资源中保存原始 GIF 数据和元数据，以便按需解码各帧。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Stretch to fill the entire control rect."
+msgstr "拉伸以填满整个控件矩形。"
+
+#. doc_classes/GIFTexture.xml
+msgid "Texture2D subclass for displaying animated GIF images."
+msgstr "用于显示 GIF 动画的 Texture2D 子类。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "The GIF texture to display and animate. Assigning a texture resets the current frame and loop counter. Use separate [GIFTexture] instances for players that need independent playback."
+msgstr "要显示和播放的 GIF 纹理。赋值时会重置当前帧和循环计数。需要独立播放的节点应使用各自的 [GIFTexture] 实例。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The cached GIF canvas size in pixels. This metadata is stored with the imported resource."
+msgstr "以像素为单位的缓存 GIF 画布尺寸。此元数据随导入的资源一起保存。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The cached delay for each frame in seconds, in frame index order. This metadata is stored with the imported resource."
+msgstr "以秒为单位的缓存帧延迟，按帧索引排列。此元数据随导入的资源一起保存。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The cached loop count from the GIF. [code]0[/code] means infinite repetition. This metadata is stored with the imported resource."
+msgstr "从 GIF 读取并缓存的循环次数。[code]0[/code] 表示无限循环。此元数据随导入的资源一起保存。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The cached number of frames in the GIF. This metadata is stored with the imported resource."
+msgstr "GIF 的缓存帧数。此元数据随导入的资源一起保存。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "The number of times to play the animation. [code]0[/code] repeats indefinitely. Negative values use the loop count from [member gif]. [constant PLAY_MODE_RANDOM] ignores this limit."
+msgstr "动画的播放次数。[code]0[/code] 表示无限循环，负数表示使用 [member gif] 中的循环次数。[constant PLAY_MODE_RANDOM] 不受此限制。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "The order in which frames are played. See [enum PlayMode]."
+msgstr "帧的播放顺序。见 [enum PlayMode]。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The original bytes of the GIF file. Replacing the data resets [member frame] and clears cached metadata and decoded frames."
+msgstr "GIF 文件的原始字节。替换数据会重置 [member frame]，并清除缓存的元数据及已解码的帧。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "The playback speed multiplier. [code]1.0[/code] uses the original frame timing, [code]2.0[/code] plays at double speed, and [code]0.0[/code] prevents frames from advancing. Negative values are clamped to [code]0.0[/code]."
+msgstr "播放速度倍率。[code]1.0[/code] 使用原始帧时序，[code]2.0[/code] 以两倍速度播放，[code]0.0[/code] 时帧不会推进。负数会被限制为 [code]0.0[/code]。"
+
+#. doc_classes/GIFTexture.xml
+msgid "The zero-based index of the displayed frame. Use [GIFPlayer] for automatic playback or change this property to display a specific frame."
+msgstr "当前显示帧的索引，从 0 开始。使用 [GIFPlayer] 可自动播放，也可修改此属性来显示指定帧。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Tile the image to fill the rect."
+msgstr "平铺图像以填满控件矩形。"
+
+#. doc_classes/GIFReader.xml
+msgid "Unexpected end of file encountered."
+msgstr "意外到达文件末尾。"
+
+#. doc_classes/ResourcePreviewGIFTexture.xml
+msgid "Uses the first frame of a GIF image to generate a still thumbnail for the editor."
+msgstr "使用 GIF 图像的第一帧为编辑器生成静态缩略图。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Uses the original GIF dimensions as the minimum size."
+msgstr "将 GIF 原始尺寸作为最小尺寸。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Uses the original GIF dimensions as the minimum size. Use [member stretch_mode] to control the drawn aspect ratio."
+msgstr "将 GIF 原始尺寸作为最小尺寸。使用 [member stretch_mode] 控制绘制时的宽高比。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Uses the original GIF height as the minimum height and leaves the minimum width unconstrained."
+msgstr "将 GIF 原始高度作为最小高度，最小宽度不受 GIF 尺寸约束。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Uses the original GIF width as the minimum width and leaves the minimum height unconstrained."
+msgstr "将 GIF 原始宽度作为最小宽度，最小高度不受 GIF 尺寸约束。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Uses the same minimum size as [constant EXPAND_FIT_HEIGHT_PROPORTIONAL]."
+msgstr "使用与 [constant EXPAND_FIT_HEIGHT_PROPORTIONAL] 相同的最小尺寸。"
+
+#. doc_classes/GIFPlayer.xml
+msgid "Whether playback is enabled. Setting this to [code]true[/code] calls [method play] and setting it to [code]false[/code] calls [method stop]. Use [member paused] to pause without resetting the frame."
+msgstr "是否启用播放。设为 [code]true[/code] 时调用 [method play]，设为 [code]false[/code] 时调用 [method stop]。使用 [member paused] 可在保留当前帧的情况下暂停。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Write failed, disk may be full."
+msgstr "写入失败，磁盘可能已满。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Writes GIF files from image data."
+msgstr "将图像数据写入 GIF 文件。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Writes frame data from an [Image] object. Automatically quantizes colors if [param quantize] is true."
+msgstr "从 [Image] 对象写入帧数据。如果 [param quantize] 为 true，则会自动量化颜色。"
+
+#. doc_classes/GIFWriter.xml
+msgid "Writes raw pixel indices for the current frame. Data length must equal width * height."
+msgstr "写入当前帧的原始像素索引。数据长度必须等于宽度与高度的乘积。"
+
+#. doc_classes/GIFReader.xml
+msgid "Wrong record type encountered."
+msgstr "遇到错误的记录类型。"

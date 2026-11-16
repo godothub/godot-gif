@@ -27,6 +27,12 @@
     <Filter Include="Source Files\node">
       <UniqueIdentifier>{2a1b5024-8a7d-4583-83bc-7c31232fd330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Translations">
+      <UniqueIdentifier>{ea380eba-aef2-491a-aa63-136294b77644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Documentation">
+      <UniqueIdentifier>{cdd54d10-097d-452e-867f-2c8d91af132e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\register_types.h">
@@ -53,6 +59,9 @@
     <ClInclude Include="src\editor\resource_preview_gif_texture.h">
       <Filter>Header Files\editor</Filter>
     </ClInclude>
+    <ClInclude Include="src\editor\gif_editor_translations.h">
+      <Filter>Header Files\editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\register_types.cpp">
@@ -76,5 +85,34 @@
     <ClCompile Include="src\editor\resource_preview_gif_texture.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\gif_editor_translations.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="addons\godot_gif\translations\documentation.zh_Hans.po">
+      <Filter>Translations</Filter>
+    </None>
+    <None Include="addons\godot_gif\translations\properties.zh_Hans.po">
+      <Filter>Translations</Filter>
+    </None>
+    <None Include="doc_classes\GIFPlayer.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
+    <None Include="doc_classes\GIFReader.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
+    <None Include="doc_classes\GIFTexture.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
+    <None Include="doc_classes\GIFWriter.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
+    <None Include="doc_classes\ResourceImporterGIFTexture.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
+    <None Include="doc_classes\ResourcePreviewGIFTexture.xml">
+      <Filter>Class Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="ResourcePreviewGIFTexture" inherits="EditorResourcePreviewGenerator" api_type="editor_extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Generates editor previews for GIF textures.
+	</brief_description>
+	<description>
+		Uses the first frame of a GIF image to generate a still thumbnail for the editor.
+	</description>
+	<tutorials>
+	</tutorials>
+</class>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="GIFWriter" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+<class name="GIFWriter" inherits="RefCounted" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
 		Writes GIF files from image data.
 	</brief_description>
@@ -40,19 +40,19 @@
 				Ends the current frame writing. Must be called after writing frame data before beginning another frame.
 			</description>
 		</method>
-		<method name="get_canvas_size">
+		<method name="get_canvas_size" qualifiers="const">
 			<return type="Vector2i" />
 			<description>
 				Returns the canvas size set by [method set_canvas_size].
 			</description>
 		</method>
-		<method name="get_frame_count">
+		<method name="get_frame_count" qualifiers="const">
 			<return type="int" />
 			<description>
 				Returns the number of frames written so far.
 			</description>
 		</method>
-		<method name="get_output_buffer">
+		<method name="get_output_buffer" qualifiers="const">
 			<return type="PackedByteArray" />
 			<description>
 				Returns the memory buffer containing the GIF data. Only valid after calling [method open_from_buffer] and [method close].
@@ -177,10 +177,10 @@
 		</method>
 	</methods>
 	<constants>
-		<constant name="CLOSE_FAILED" value="8" enum="GIFError">
+		<constant name="CLOSE_FAILED" value="9" enum="GIFError">
 			Failed to close the file.
 		</constant>
-		<constant name="DATA_TOO_BIG" value="5" enum="GIFError">
+		<constant name="DATA_TOO_BIG" value="6" enum="GIFError">
 			Pixel data size exceeds width * height.
 		</constant>
 		<constant name="DISPOSAL_METHOD_BACKGROUND" value="2" enum="DisposalMethod">
@@ -195,46 +195,46 @@
 		<constant name="DISPOSAL_METHOD_UNSPECIFIED" value="0" enum="DisposalMethod">
 			Disposal method not specified.
 		</constant>
-		<constant name="DISK_IS_FULL" value="7" enum="GIFError">
+		<constant name="DISK_IS_FULL" value="8" enum="GIFError">
 			Write failed, disk may be full.
 		</constant>
-		<constant name="HAS_IMAG_DSCR" value="3" enum="GIFError">
+		<constant name="HAS_IMAG_DSCR" value="4" enum="GIFError">
 			Image descriptor is already active.
 		</constant>
-		<constant name="HAS_SCRN_DSCR" value="2" enum="GIFError">
+		<constant name="HAS_SCRN_DSCR" value="3" enum="GIFError">
 			Screen descriptor already set, attempted to set second one.
 		</constant>
-		<constant name="INVALID_DIMENSIONS" value="10" enum="GIFError">
+		<constant name="INVALID_DIMENSIONS" value="11" enum="GIFError">
 			Invalid dimensions (0 or exceeds 65535).
 		</constant>
-		<constant name="NO_COLOR_MAP" value="4" enum="GIFError">
+		<constant name="NO_COLOR_MAP" value="5" enum="GIFError">
 			No global or local color map set.
 		</constant>
-		<constant name="NO_FILE_OPEN" value="11" enum="GIFError">
+		<constant name="NO_FILE_OPEN" value="12" enum="GIFError">
 			No file is currently open.
 		</constant>
-		<constant name="NO_IMAG_DSCR" value="14" enum="GIFError">
+		<constant name="NO_IMAG_DSCR" value="15" enum="GIFError">
 			No image descriptor set.
 		</constant>
-		<constant name="NO_SCRN_DSCR" value="13" enum="GIFError">
+		<constant name="NO_SCRN_DSCR" value="14" enum="GIFError">
 			No screen descriptor set.
 		</constant>
-		<constant name="NOT_ENOUGH_MEM" value="6" enum="GIFError">
+		<constant name="NOT_ENOUGH_MEM" value="7" enum="GIFError">
 			Not enough memory to allocate required structures.
 		</constant>
-		<constant name="NOT_WRITEABLE" value="9" enum="GIFError">
+		<constant name="NOT_WRITEABLE" value="10" enum="GIFError">
 			File is not open for writing.
 		</constant>
 		<constant name="OPEN_FAILED" value="1" enum="GIFError">
 			Failed to open the specified file.
 		</constant>
-		<constant name="PALETTE_TOO_LARGE" value="12" enum="GIFError">
+		<constant name="PALETTE_TOO_LARGE" value="13" enum="GIFError">
 			Palette contains more than 256 colors.
 		</constant>
 		<constant name="SUCCEEDED" value="0" enum="GIFError">
 			Operation completed successfully.
 		</constant>
-		<constant name="WRITER_FAILED" value="1" enum="GIFError">
+		<constant name="WRITER_FAILED" value="2" enum="GIFError">
 			Failed to write to file.
 		</constant>
 	</constants>

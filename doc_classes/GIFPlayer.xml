@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="GIFPlayer" inherits="Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+<class name="GIFPlayer" inherits="Control" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
 		Control node for animated GIF playback.
 	</brief_description>
@@ -10,159 +10,29 @@
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="get_expand_mode">
-			<return type="int" enum="GIFPlayer.ExpandMode" />
-			<description>
-				Returns the current expand mode.
-			</description>
-		</method>
-		<method name="get_frame">
+		<method name="get_frame" qualifiers="const">
 			<return type="int" />
 			<description>
 				Returns the currently displayed frame index.
 			</description>
 		</method>
-		<method name="get_frame_count">
+		<method name="get_frame_count" qualifiers="const">
 			<return type="int" />
 			<description>
-				Returns the total number of frames in the loaded GIF.
-			</description>
-		</method>
-		<method name="get_gif">
-			<return type="GIFTexture" />
-			<description>
-				Returns the currently loaded [GIFTexture].
-			</description>
-		</method>
-		<method name="get_loop_count">
-			<return type="int" />
-			<description>
-				Returns the loop count setting. -1 uses the GIF's default loop count.
-			</description>
-		</method>
-		<method name="get_play_mode">
-			<return type="int" enum="GIFPlayer.PlayMode" />
-			<description>
-				Returns the current play mode.
-			</description>
-		</method>
-		<method name="get_speed_scale">
-			<return type="float" />
-			<description>
-				Returns the current playback speed multiplier.
-			</description>
-		</method>
-		<method name="get_stretch_mode">
-			<return type="int" enum="GIFPlayer.StretchMode" />
-			<description>
-				Returns the current stretch mode.
-			</description>
-		</method>
-		<method name="is_flipped_h">
-			<return type="bool" />
-			<description>
-				Returns true if the GIF is horizontally flipped.
-			</description>
-		</method>
-		<method name="is_flipped_v">
-			<return type="bool" />
-			<description>
-				Returns true if the GIF is vertically flipped.
-			</description>
-		</method>
-		<method name="is_paused">
-			<return type="bool" />
-			<description>
-				Returns true if playback is paused.
-			</description>
-		</method>
-		<method name="is_playing">
-			<return type="bool" />
-			<description>
-				Returns true if currently playing (not stopped).
+				Returns the total number of frames in [member gif], or [code]0[/code] if no texture is assigned.
 			</description>
 		</method>
 		<method name="play">
 			<return type="void" />
 			<description>
-				Starts playback from the beginning. Resets the frame position and loop counter.
-			</description>
-		</method>
-		<method name="set_expand_mode">
-			<return type="void" />
-			<param index="0" name="mode" type="int" enum="GIFPlayer.ExpandMode" />
-			<description>
-				Sets how the control size relates to the GIF dimensions.
-			</description>
-		</method>
-		<method name="set_flip_h">
-			<return type="void" />
-			<param index="0" name="enable" type="bool" />
-			<description>
-				Enables or disables horizontal flipping of the GIF.
-			</description>
-		</method>
-		<method name="set_flip_v">
-			<return type="void" />
-			<param index="0" name="enable" type="bool" />
-			<description>
-				Enables or disables vertical flipping of the GIF.
+				Enables playback from the current frame, clears [member paused], and restarts the frame timer. This requires a valid [member gif] with at least one frame.
 			</description>
 		</method>
 		<method name="set_frame">
 			<return type="void" />
 			<param index="0" name="frame" type="int" />
 			<description>
-				Sets the current frame to display. Does not affect playback state.
-			</description>
-		</method>
-		<method name="set_gif">
-			<return type="void" />
-			<param index="0" name="gif" type="GIFTexture" />
-			<description>
-				Sets the [GIFTexture] to display and play. Automatically resets playback to frame 0.
-			</description>
-		</method>
-		<method name="set_loop_count">
-			<return type="void" />
-			<param index="0" name="count" type="int" />
-			<description>
-				Sets the number of times to loop the animation. 0 for infinite, -1 to use GIF default.
-			</description>
-		</method>
-		<method name="set_paused">
-			<return type="void" />
-			<param index="0" name="enable" type="bool" />
-			<description>
-				Pauses or resumes playback. When paused, the current frame remains displayed.
-			</description>
-		</method>
-		<method name="set_play_mode">
-			<return type="void" />
-			<param index="0" name="mode" type="int" enum="GIFPlayer.PlayMode" />
-			<description>
-				Sets the playback mode: forward, backward, ping-pong, or random.
-			</description>
-		</method>
-		<method name="set_playing">
-			<return type="void" />
-			<param index="0" name="enable" type="bool" />
-			<description>
-				Sets whether playback is active. When set to false, acts like stop().
-			</description>
-		</method>
-		<method name="set_speed_scale">
-			<return type="void" />
-			<param index="0" name="speed" type="float" />
-			<description>
-				Sets the playback speed multiplier. 1.0 is normal speed, 2.0 is double speed, 0.5 is half speed.
-			</description>
-		</method>
-		<method name="set_stretch_mode">
-			<return type="void" />
-			<param index="0" name="mode" type="int" enum="GIFPlayer.StretchMode" />
-			<description>
-				Sets how the GIF is scaled to fit the control rect.
+				Displays the frame at the given zero-based index and restarts the frame timer. The playback and pause states are preserved.
 			</description>
 		</method>
 		<method name="stop">
@@ -172,24 +42,56 @@
 			</description>
 		</method>
 	</methods>
+	<members>
+		<member name="expand_mode" type="int" setter="set_expand_mode" getter="get_expand_mode" enum="GIFPlayer.ExpandMode" default="0">
+			Controls how the GIF's dimensions contribute to the control's minimum size. See [enum ExpandMode]. Use [member stretch_mode] to control how the GIF is drawn inside the control.
+		</member>
+		<member name="flip_h" type="bool" setter="set_flip_h" getter="is_flipped_h" default="false">
+			If [code]true[/code], flips the GIF horizontally.
+		</member>
+		<member name="flip_v" type="bool" setter="set_flip_v" getter="is_flipped_v" default="false">
+			If [code]true[/code], flips the GIF vertically.
+		</member>
+		<member name="gif" type="GIFTexture" setter="set_gif" getter="get_gif">
+			The GIF texture to display and animate. Assigning a texture resets the current frame and loop counter. Use separate [GIFTexture] instances for players that need independent playback.
+		</member>
+		<member name="loop_count" type="int" setter="set_loop_count" getter="get_loop_count" default="0">
+			The number of times to play the animation. [code]0[/code] repeats indefinitely. Negative values use the loop count from [member gif]. [constant PLAY_MODE_RANDOM] ignores this limit.
+		</member>
+		<member name="paused" type="bool" setter="set_paused" getter="is_paused" default="false">
+			If [code]true[/code], pauses active playback and keeps the current frame visible. Set this to [code]false[/code] to resume. This property reads as [code]false[/code] when playback is stopped.
+		</member>
+		<member name="play_mode" type="int" setter="set_play_mode" getter="get_play_mode" enum="GIFPlayer.PlayMode" default="0">
+			The order in which frames are played. See [enum PlayMode].
+		</member>
+		<member name="playing" type="bool" setter="set_playing" getter="is_playing" default="true">
+			Whether playback is enabled. Setting this to [code]true[/code] calls [method play] and setting it to [code]false[/code] calls [method stop]. Use [member paused] to pause without resetting the frame.
+		</member>
+		<member name="speed_scale" type="float" setter="set_speed_scale" getter="get_speed_scale" default="1.0">
+			The playback speed multiplier. [code]1.0[/code] uses the original frame timing, [code]2.0[/code] plays at double speed, and [code]0.0[/code] prevents frames from advancing. Negative values are clamped to [code]0.0[/code].
+		</member>
+		<member name="stretch_mode" type="int" setter="set_stretch_mode" getter="get_stretch_mode" enum="GIFPlayer.StretchMode" default="2">
+			Controls how the GIF is drawn inside the control's rectangle, including scaling, tiling, and alignment. See [enum StretchMode].
+		</member>
+	</members>
 	<constants>
 		<constant name="EXPAND_FIT_HEIGHT" value="4" enum="ExpandMode">
-			Expand to fit height, ignoring width constraints.
+			Uses the original GIF height as the minimum height and leaves the minimum width unconstrained.
 		</constant>
 		<constant name="EXPAND_FIT_HEIGHT_PROPORTIONAL" value="5" enum="ExpandMode">
-			Expand to fit height proportionally.
+			Uses the original GIF dimensions as the minimum size. Use [member stretch_mode] to control the drawn aspect ratio.
 		</constant>
 		<constant name="EXPAND_FIT_WIDTH" value="2" enum="ExpandMode">
-			Expand to fit width, ignoring height constraints.
+			Uses the original GIF width as the minimum width and leaves the minimum height unconstrained.
 		</constant>
 		<constant name="EXPAND_FIT_WIDTH_PROPORTIONAL" value="3" enum="ExpandMode">
-			Expand to fit width proportionally.
+			Uses the same minimum size as [constant EXPAND_FIT_HEIGHT_PROPORTIONAL].
 		</constant>
 		<constant name="EXPAND_IGNORE_SIZE" value="1" enum="ExpandMode">
-			Ignore the GIF's original size.
+			Lets the control shrink below the GIF's original size.
 		</constant>
 		<constant name="EXPAND_KEEP_SIZE" value="0" enum="ExpandMode">
-			Keep the GIF's original size.
+			Uses the original GIF dimensions as the minimum size.
 		</constant>
 		<constant name="PLAY_MODE_BACKWARD" value="1" enum="PlayMode">
 			Play frames in reverse order.
@@ -201,7 +103,7 @@
 			Play forward then backward repeatedly.
 		</constant>
 		<constant name="PLAY_MODE_RANDOM" value="3" enum="PlayMode">
-			Play frames in random order.
+			Chooses a random frame at each step. The same frame can be chosen again, and [member loop_count] is ignored.
 		</constant>
 		<constant name="STRETCH_KEEP" value="2" enum="StretchMode">
 			Keep the original size, position at top-left.

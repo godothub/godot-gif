@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="ResourceImporterGIFTexture" inherits="EditorImportPlugin" api_type="editor_extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Imports GIF files as [GIFTexture] resources.
+	</brief_description>
+	<description>
+		Stores the original GIF data and its metadata in a [GIFTexture] resource so the frames can be decoded on demand.
+	</description>
+	<tutorials>
+	</tutorials>
+	<members>
+		<member name="storage/compress" type="bool" setter="" getter="" default="true">
+			Compresses the imported resource on disk. The GIF data and decoded frames retain their original quality.
+		</member>
+	</members>
+</class>

@@ -1,60 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="GIFTexture" inherits="Texture2D" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+<class name="GIFTexture" inherits="Texture2D" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
 		Texture2D subclass for displaying animated GIF images.
 	</brief_description>
 	<description>
-		GIFTexture extends [Texture2D] to provide animated GIF support as a Godot resource. Parses GIF data and provides access to individual frames as [ImageTexture] objects.
-		Can be assigned directly to [TextureRect] and other nodes that accept Texture2D.
+		GIFTexture extends [Texture2D] to provide animated GIF support as a Godot resource. It decodes frames on demand and exposes them as [ImageTexture] objects. Assign it to a [TextureRect] to display [member frame], or to a [GIFPlayer] for automatic playback.
 	</description>
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="get_current_texture">
+		<method name="get_current_texture" qualifiers="const">
 			<return type="ImageTexture" />
 			<description>
 				Returns the [ImageTexture] for the currently selected frame.
 			</description>
 		</method>
-		<method name="get_data">
-			<return type="PackedByteArray" />
-			<description>
-				Returns the raw GIF data as a byte array.
-			</description>
-		</method>
-		<method name="get_frame">
-			<return type="int" />
-			<description>
-				Returns the currently selected frame index.
-			</description>
-		</method>
-		<method name="get_frame_count">
+		<method name="get_frame_count" qualifiers="const">
 			<return type="int" />
 			<description>
 				Returns the total number of frames in the GIF.
 			</description>
 		</method>
-		<method name="get_frame_delay">
+		<method name="get_frame_delay" qualifiers="const">
 			<return type="float" />
 			<param index="0" name="frame" type="int" />
 			<description>
 				Returns the delay time in seconds for the specified frame.
 			</description>
 		</method>
-		<method name="get_frame_texture">
+		<method name="get_frame_texture" qualifiers="const">
 			<return type="ImageTexture" />
 			<param index="0" name="frame" type="int" />
 			<description>
 				Returns the [ImageTexture] for the specified frame index.
 			</description>
 		</method>
-		<method name="get_loop_count">
+		<method name="get_loop_count" qualifiers="const">
 			<return type="int" />
 			<description>
 				Returns the loop count from the GIF metadata. 0 means infinite loop.
 			</description>
 		</method>
-		<method name="get_total_duration">
+		<method name="get_total_duration" qualifiers="const">
 			<return type="float" />
 			<description>
 				Returns the total duration of the animation in seconds.
@@ -74,19 +61,25 @@
 				Static method to load a GIF from a file path.
 			</description>
 		</method>
-		<method name="set_data">
-			<return type="void" />
-			<param index="0" name="data" type="PackedByteArray" />
-			<description>
-				Sets the GIF data and parses all frames. Replaces any existing data.
-			</description>
-		</method>
-		<method name="set_frame">
-			<return type="void" />
-			<param index="0" name="frame" type="int" />
-			<description>
-				Sets the currently displayed frame index. Used by [GIFPlayer] and can be used for manual frame control.
-			</description>
-		</method>
 	</methods>
+	<members>
+		<member name="data" type="PackedByteArray" setter="set_data" getter="get_data" default="PackedByteArray()">
+			The original bytes of the GIF file. Replacing the data resets [member frame] and clears cached metadata and decoded frames.
+		</member>
+		<member name="frame" type="int" setter="set_frame" getter="get_frame" default="0">
+			The zero-based index of the displayed frame. Use [GIFPlayer] for automatic playback or change this property to display a specific frame.
+		</member>
+		<member name="metadata/frame_count" type="int" setter="set_metadata_frame_count" getter="get_metadata_frame_count" default="0">
+			The cached number of frames in the GIF. This metadata is stored with the imported resource.
+		</member>
+		<member name="metadata/frame_delays" type="PackedFloat32Array" setter="set_metadata_frame_delays" getter="get_metadata_frame_delays" default="PackedFloat32Array()">
+			The cached delay for each frame in seconds, in frame index order. This metadata is stored with the imported resource.
+		</member>
+		<member name="metadata/loop_count" type="int" setter="set_metadata_loop_count" getter="get_metadata_loop_count" default="0">
+			The cached loop count from the GIF. [code]0[/code] means infinite repetition. This metadata is stored with the imported resource.
+		</member>
+		<member name="metadata/size" type="Vector2i" setter="set_metadata_size" getter="get_metadata_size" default="Vector2i(0, 0)">
+			The cached GIF canvas size in pixels. This metadata is stored with the imported resource.
+		</member>
+	</members>
 </class>

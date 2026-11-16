@@ -26,6 +26,16 @@ namespace godot {
 		BIND_ENUM_CONSTANT(DISK_IS_FULL);
 		BIND_ENUM_CONSTANT(CLOSE_FAILED);
 		BIND_ENUM_CONSTANT(NOT_WRITEABLE);
+		BIND_ENUM_CONSTANT(INVALID_DIMENSIONS);
+		BIND_ENUM_CONSTANT(NO_FILE_OPEN);
+		BIND_ENUM_CONSTANT(PALETTE_TOO_LARGE);
+		BIND_ENUM_CONSTANT(NO_SCRN_DSCR);
+		BIND_ENUM_CONSTANT(NO_IMAG_DSCR);
+
+		BIND_ENUM_CONSTANT(DISPOSAL_METHOD_UNSPECIFIED);
+		BIND_ENUM_CONSTANT(DISPOSAL_METHOD_DO_NOT);
+		BIND_ENUM_CONSTANT(DISPOSAL_METHOD_BACKGROUND);
+		BIND_ENUM_CONSTANT(DISPOSAL_METHOD_PREVIOUS);
 
 		ClassDB::bind_method(D_METHOD("open", "path"), &GIFWriter::open);
 		ClassDB::bind_method(D_METHOD("open_from_buffer"), &GIFWriter::open_from_buffer);
@@ -37,7 +47,7 @@ namespace godot {
 		ClassDB::bind_method(D_METHOD("set_global_palette", "palette"), &GIFWriter::set_global_palette);
 		ClassDB::bind_method(D_METHOD("set_color_resolution", "bits"), &GIFWriter::set_color_resolution);
 
-		ClassDB::bind_method(D_METHOD("begin_frame", "left", "top", "width", "height", "interlace"), &GIFWriter::begin_frame);
+		ClassDB::bind_method(D_METHOD("begin_frame", "left", "top", "width", "height", "interlace"), &GIFWriter::begin_frame, DEFVAL(false));
 		ClassDB::bind_method(D_METHOD("set_frame_delay", "delay_ms"), &GIFWriter::set_frame_delay);
 		ClassDB::bind_method(D_METHOD("set_disposal_method", "method"), &GIFWriter::set_disposal_method);
 		ClassDB::bind_method(D_METHOD("set_transparent_color", "index"), &GIFWriter::set_transparent_color);

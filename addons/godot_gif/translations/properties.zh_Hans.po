@@ -1,0 +1,135 @@
+# Godot-GIF Simplified Chinese translations.
+# Distributed under the project license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Godot-GIF\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. src/node/gif_player.cpp
+msgid "Expand Mode"
+msgstr "扩展模式"
+
+#. src/node/gif_player.cpp
+msgid "Flip H"
+msgstr "水平翻转"
+
+#. src/node/gif_player.cpp
+msgid "Flip V"
+msgstr "垂直翻转"
+
+#. src/node/gif_player.cpp
+msgid "Gif"
+msgstr "GIF 纹理"
+
+#. src/node/gif_player.cpp
+msgid "Loop Count"
+msgstr "循环次数"
+
+#. src/node/gif_player.cpp
+msgid "Paused"
+msgstr "暂停"
+
+#. src/node/gif_player.cpp
+msgid "Play Mode"
+msgstr "播放模式"
+
+#. src/node/gif_player.cpp
+msgid "Playing"
+msgstr "正在播放"
+
+#. src/node/gif_player.cpp
+msgid "Speed Scale"
+msgstr "速度缩放"
+
+#. src/node/gif_player.cpp
+msgid "Stretch Mode"
+msgstr "拉伸模式"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Backward"
+msgstr "倒序"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Fit Height"
+msgstr "适应高度"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Fit Height Proportional"
+msgstr "按比例适应高度"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Fit Width"
+msgstr "适应宽度"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Fit Width Proportional"
+msgstr "按比例适应宽度"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Forward"
+msgstr "正序"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Ignore Size"
+msgstr "忽略尺寸"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep"
+msgstr "保持"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep Aspect"
+msgstr "保持宽高比"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep Aspect Centered"
+msgstr "保持宽高比并居中"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep Aspect Covered"
+msgstr "保持宽高比并覆盖"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep Centered"
+msgstr "保持并居中"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Keep Size"
+msgstr "保持尺寸"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "PingPong"
+msgstr "往返"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Random"
+msgstr "随机"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Scale"
+msgstr "缩放"
+
+#. src/node/gif_player.cpp
+msgctxt "GIFPlayer"
+msgid "Tile"
+msgstr "平铺"

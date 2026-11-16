@@ -1,7 +1,11 @@
 #include "gif_player.h"
 
-#include <godot_cpp/core/error_macros.hpp>
+#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/time.hpp>
+#include <godot_cpp/classes/translation_domain.hpp>
+#include <godot_cpp/classes/translation_server.hpp>
+#include <godot_cpp/core/error_macros.hpp>
+#include <godot_cpp/variant/packed_string_array.hpp>
 
 namespace godot {
 	void GIFPlayer::_bind_methods() {
@@ -76,6 +80,23 @@ namespace godot {
 
 	GIFPlayer::GIFPlayer() {
 		set_process(true);
+	}
+
+	void GIFPlayer::_validate_property(PropertyInfo& p_property) const {
+		if (!Engine::get_singleton()->is_editor_hint() || p_property.hint != PROPERTY_HINT_ENUM) {
+			return;
+		}
+		if (p_property.name != StringName("play_mode") && p_property.name != StringName("expand_mode") && p_property.name != StringName("stretch_mode")) {
+			return;
+		}
+
+		// The inspector displays enum hint labels verbatim while keeping their indices as values.
+		const Ref<TranslationDomain> domain = TranslationServer::get_singleton()->get_or_add_domain("godot.properties");
+		PackedStringArray options = p_property.hint_string.split(",");
+		for (int64_t index = 0; index < options.size(); ++index) {
+			options.set(index, domain->translate(options[index], "GIFPlayer"));
+		}
+		p_property.hint_string = String(",").join(options);
 	}
 
 	void GIFPlayer::_notification(int p_what) {
