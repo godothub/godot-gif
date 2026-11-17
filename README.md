@@ -1,12 +1,4 @@
-<p align="center">
-  <img alt="gif_banner" src="https://github.com/user-attachments/assets/a7b95e79-72ad-4958-9da4-6a146f7941f7" />
-</p>
-
-<h1 align="center">Godot-GIF</h1>
-
-<p align="center">
-  A lightweight GIF reader and writer for Godot Engine
-</p>
+# Godot-GIF
 
 ## Overview
 
@@ -14,12 +6,9 @@ Godot-GIF is a GDExtension plugin for Godot Engine 4.x that provides GIF reading
 
 ## Features
 
-- Read GIF files and extract frames as Godot Image objects
-- Write GIF files from Image arrays with customizable frame delays
-- GIFTexture resource class for animated GIF display
-- GIFPlayer UI node for built-in animation playback
-- Support for transparency, looping, and disposal methods
-- Import plugin for direct GIF file usage in editor
+- Import GIFs as <img width=16 alt="GIFTexture" src="addons/godot_gif/bin/icons/GIFTexture.svg" /> `GIFTexture` resources and inspect individual frames in Godot 4.7's native texture preview.
+- Play GIF animations with <img width=16 alt="GIFTexture" src="addons/godot_gif/bin/icons/GIFPlayer.svg" /> `GIFPlayer`, with control over speed, looping, and playback mode.
+- Read GIF frames and metadata, or write GIFs from `Image` arrays with custom frame delays and transparency.
 
 ## Installation
 
@@ -55,7 +44,7 @@ GIFWriter.save_to_file("res://output.gif", images, delays)
 
 ## Building from Source
 
-Requires Python 3.8+, SCons 4.0+, and a C++20 compatible compiler.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for build prerequisites, commands, and platform-specific setup.
 
 ## License
 
