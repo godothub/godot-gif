@@ -1,11 +1,17 @@
 #include "gif_texture.h"
 
 #include <godot_cpp/core/error_macros.hpp>
+#include <godot_cpp/core/version.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/image.hpp>
 
 namespace godot {
 	void GIFTexture::_bind_methods() {
+#if GODOT_VERSION_MAJOR == 4 && GODOT_VERSION_MINOR < 7
+		// Godot 4.7 added this virtual after the API used to generate these bindings.
+		BIND_VIRTUAL_METHOD(GIFTexture, _get_image, 4190603485);
+#endif
+
 		ClassDB::bind_static_method("GIFTexture", D_METHOD("load_from_file", "path"), &GIFTexture::load_from_file);
 		ClassDB::bind_static_method("GIFTexture", D_METHOD("load_from_buffer", "buffer"), &GIFTexture::load_from_buffer);
 
@@ -77,43 +83,43 @@ namespace godot {
 	}
 
 	int GIFTexture::_get_width() const {
-		_ensure_metadata();
-		return size.x;
+		return get_metadata_size().x;
 	}
 
 	int GIFTexture::_get_height() const {
-		_ensure_metadata();
-		return size.y;
+		return get_metadata_size().y;
 	}
 
 	bool GIFTexture::_has_alpha() const {
-		if (_ensure_frame_decoded(current_frame)) {
-			Ref<ImageTexture> tex = frames[current_frame];
-			if (tex.is_valid()) return tex->has_alpha();
-		}
-		return true;
+		const Ref<ImageTexture> texture = get_current_texture();
+		return texture.is_null() || texture->has_alpha();
 	}
 
 	RID GIFTexture::_get_rid() const {
-		if (_ensure_frame_decoded(current_frame)) {
-			Ref<ImageTexture> tex = frames[current_frame];
-			if (tex.is_valid()) return tex->get_rid();
-		}
-		return RID();
+		const Ref<ImageTexture> texture = get_current_texture();
+		return texture.is_valid() ? texture->get_rid() : RID();
+	}
+
+	Ref<Image> GIFTexture::_get_image() const {
+		const Ref<ImageTexture> texture = get_current_texture();
+		return texture.is_valid() ? texture->get_image() : Ref<Image>();
 	}
 
 	void GIFTexture::set_data(const PackedByteArray& p_data) {
-		if (gif_data == p_data) {
-			return;
-		}
+		{
+			const std::lock_guard lock(frame_mutex);
+			if (gif_data == p_data) {
+				return;
+			}
 
-		gif_data = p_data;
-		frame_delays.clear();
-		size = Size2i();
-		frame_count = 0;
-		loop_count = 0;
-		current_frame = 0;
-		_reset_runtime_cache();
+			gif_data = p_data;
+			frame_delays.clear();
+			size = Size2i();
+			frame_count = 0;
+			loop_count = 0;
+			current_frame = 0;
+			_reset_runtime_cache();
+		}
 		emit_changed();
 	}
 
@@ -289,83 +295,103 @@ namespace godot {
 	}
 
 	void GIFTexture::set_metadata_size(const Vector2i& p_size) {
-		if (size == p_size) {
-			return;
+		{
+			const std::lock_guard lock(frame_mutex);
+			if (size == p_size) {
+				return;
+			}
+			size = p_size;
+			_reset_runtime_cache();
 		}
-		size = p_size;
-		_reset_runtime_cache();
 		emit_changed();
 	}
 
 	Vector2i GIFTexture::get_metadata_size() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		return size;
 	}
 
 	void GIFTexture::set_metadata_frame_count(int p_frame_count) {
 		p_frame_count = MAX(p_frame_count, 0);
-		if (frame_count == p_frame_count) {
-			return;
+		{
+			const std::lock_guard lock(frame_mutex);
+			if (frame_count == p_frame_count) {
+				return;
+			}
+			frame_count = p_frame_count;
+			_reset_runtime_cache();
 		}
-		frame_count = p_frame_count;
-		_reset_runtime_cache();
 		emit_changed();
 	}
 
 	int GIFTexture::get_metadata_frame_count() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		return frame_count;
 	}
 
 	void GIFTexture::set_metadata_frame_delays(const PackedFloat32Array& p_frame_delays) {
+		const std::lock_guard lock(frame_mutex);
 		frame_delays = p_frame_delays;
 	}
 
 	PackedFloat32Array GIFTexture::get_metadata_frame_delays() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		return frame_delays;
 	}
 
 	void GIFTexture::set_metadata_loop_count(int p_loop_count) {
+		const std::lock_guard lock(frame_mutex);
 		loop_count = p_loop_count;
 	}
 
 	int GIFTexture::get_metadata_loop_count() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		return loop_count;
 	}
 
 	void GIFTexture::set_metadata(const Vector2i& p_size, int p_frame_count, const PackedFloat32Array& p_frame_delays, int p_loop_count) {
-		size = p_size;
-		frame_count = MAX(p_frame_count, 0);
-		frame_delays = p_frame_delays;
-		loop_count = p_loop_count;
-		_reset_runtime_cache();
+		{
+			const std::lock_guard lock(frame_mutex);
+			size = p_size;
+			frame_count = MAX(p_frame_count, 0);
+			frame_delays = p_frame_delays;
+			loop_count = p_loop_count;
+			_reset_runtime_cache();
+		}
 		emit_changed();
 	}
 
 	PackedByteArray GIFTexture::get_data() const {
+		const std::lock_guard lock(frame_mutex);
 		return gif_data;
 	}
 
 	void GIFTexture::set_frame(int p_frame) {
-		_ensure_metadata();
-		ERR_FAIL_INDEX(p_frame, frame_count);
-		if (current_frame == p_frame) return;
-		current_frame = p_frame;
+		{
+			const std::lock_guard lock(frame_mutex);
+			_ensure_metadata();
+			ERR_FAIL_INDEX(p_frame, frame_count);
+			if (current_frame == p_frame) return;
+			current_frame = p_frame;
+		}
 		emit_changed();
 	}
 
 	int GIFTexture::get_frame() const {
+		const std::lock_guard lock(frame_mutex);
 		return current_frame;
 	}
 
 	int GIFTexture::get_frame_count() const {
-		_ensure_metadata();
-		return frame_count;
+		return get_metadata_frame_count();
 	}
 
 	Ref<ImageTexture> GIFTexture::get_frame_texture(int p_frame) const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		ERR_FAIL_INDEX_V(p_frame, frame_count, Ref<ImageTexture>());
 		if (!_ensure_frame_decoded(p_frame)) {
@@ -375,6 +401,7 @@ namespace godot {
 	}
 
 	Ref<ImageTexture> GIFTexture::get_current_texture() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		if (current_frame >= 0 && current_frame < frame_count) {
 			if (!_ensure_frame_decoded(current_frame)) {
@@ -386,6 +413,7 @@ namespace godot {
 	}
 
 	float GIFTexture::get_frame_delay(int p_frame) const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		ERR_FAIL_INDEX_V(p_frame, frame_count, 0.1f);
 		if (p_frame >= frame_delays.size()) {
@@ -395,6 +423,7 @@ namespace godot {
 	}
 
 	float GIFTexture::get_total_duration() const {
+		const std::lock_guard lock(frame_mutex);
 		_ensure_metadata();
 		float total = 0.0f;
 		for (int i = 0; i < frame_count; i++) {
@@ -404,7 +433,6 @@ namespace godot {
 	}
 
 	int GIFTexture::get_loop_count() const {
-		_ensure_metadata();
-		return loop_count;
+		return get_metadata_loop_count();
 	}
 }

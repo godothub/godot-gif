@@ -6,11 +6,16 @@
 #include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 
+#include <mutex>
+
 namespace godot {
 	class GIFTexture : public Texture2D {
 		GDCLASS(GIFTexture, Texture2D)
 
 	private:
+		// 编辑器的检查器和资源缩略图线程都可能访问帧缓存
+		mutable std::mutex frame_mutex;
+
 		// GIF 原始数据
 		PackedByteArray gif_data;
 		mutable Size2i size;
@@ -49,6 +54,7 @@ namespace godot {
 		virtual int _get_height() const override;
 		virtual bool _has_alpha() const override;
 		virtual RID _get_rid() const override;
+		Ref<Image> _get_image() const;
 
 		void set_data(const PackedByteArray& p_data);
 		PackedByteArray get_data() const;
