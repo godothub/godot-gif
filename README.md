@@ -1,4 +1,6 @@
-# Godot-GIF
+<img alt="Banner" src="assets/banner.png" />
+
+<p align="center">A lightweight GIF reader and writer for Godot 4.</p>
 
 ## Overview
 
@@ -42,15 +44,8 @@ var delays: Array[int] = [100, 100, 100]  # milliseconds
 GIFWriter.save_to_file("res://output.gif", images, delays)
 ```
 
-## Building from Source
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for build prerequisites, commands, and platform-specific setup.
-
 ## License
 
 MIT License. See LICENSE.txt for details.
 
 Includes giflib 5.2.2 (MIT License)
-
-</content>
-</invoke>

@@ -9,7 +9,7 @@
 
 namespace godot {
 	void ResourceImporterGIFTexture::_bind_methods() {
-		
+
 	}
 
 	String ResourceImporterGIFTexture::_get_importer_name() const {
@@ -110,9 +110,9 @@ namespace godot {
 		// 创建 GIFTexture 资源
 		Ref<GIFTexture> gif_texture;
 		gif_texture.instantiate();
-		
-		// 保存原始 GIF 数据和导入阶段解析出的元数据。
-		// 帧图像会在运行时按需解码，避免场景加载时一次性合成所有帧。
+
+		// 保存原始 GIF 数据和导入阶段解析出的元数据
+		// 帧图像会在运行时按需解码，避免场景加载时一次性合成所有帧
 		gif_texture->set_data(gif_data);
 		gif_texture->set_metadata(reader->get_size(), frame_count, frame_delays, reader->get_loop_count());
 

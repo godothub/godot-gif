@@ -315,7 +315,7 @@ namespace godot {
 			if (ext->Function == APPLICATION_EXT_FUNC_CODE && ext->ByteCount >= 11) {
 				// 检查是否是 Netscape 循环扩展
 				if (memcmp(ext->Bytes, "NETSCAPE2.0", 11) == 0 ||
-				    memcmp(ext->Bytes, "ANIMEXTS1.0", 11) == 0) {
+					memcmp(ext->Bytes, "ANIMEXTS1.0", 11) == 0) {
 					// 子块包含循环次数
 					if (i + 1 < file_type->ExtensionBlockCount) {
 						ExtensionBlock* sub = &file_type->ExtensionBlocks[i + 1];
@@ -396,7 +396,8 @@ namespace godot {
 		if (file_type->AspectByte != 0) {
 			float aspect = ((float)file_type->AspectByte + 15.0f) / 64.0f;
 			metadata["pixel_aspect_ratio"] = aspect;
-		} else {
+		}
+		else {
 			metadata["pixel_aspect_ratio"] = 1.0f;
 		}
 
@@ -439,14 +440,15 @@ namespace godot {
 			// 确保颜色数量在有效范围内 (GIF 调色板最多 256 色)
 			int color_count = cmap->ColorCount;
 			if (color_count > 256) color_count = 256;
-			
+
 			data.color_count = color_count;
 			data.palette.resize(color_count);
 			for (int i = 0; i < color_count; i++) {
 				GifColorType color = cmap->Colors[i];
 				data.palette[i] = Color(color.Red / 255.0f, color.Green / 255.0f, color.Blue / 255.0f, 1.0f);
 			}
-		} else {
+		}
+		else {
 			// 如果没有调色板，设置一个默认的灰度调色板
 			data.color_count = 256;
 			data.palette.resize(256);

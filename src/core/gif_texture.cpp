@@ -60,7 +60,7 @@ namespace godot {
 	}
 
 	GIFTexture::GIFTexture() {
-		
+
 	}
 
 	GIFTexture::~GIFTexture() {
@@ -289,7 +289,8 @@ namespace godot {
 					canvas_ptr[idx + 3] = 0;
 				}
 			}
-		} else if (frame_data.disposal_method == GIF_DISPOSAL_PREVIOUS) {
+		}
+		else if (frame_data.disposal_method == GIF_DISPOSAL_PREVIOUS) {
 			memcpy(canvas.ptrw(), previous_canvas.ptr(), canvas.size());
 		}
 	}

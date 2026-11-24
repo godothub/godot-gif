@@ -28,14 +28,15 @@ namespace godot {
 					p_image->set_pixel(width - 1 - x, y, transparent);
 					p_image->set_pixel(width - 1 - x, height - 1 - y, transparent);
 					p_image->set_pixel(x, height - 1 - y, transparent);
-				} else {
+				}
+				else {
 					break;
 				}
 			}
 		}
 	}
 
-	static Ref<Texture2D> generate_preview_from_image(const Ref<Image> &p_image, const Vector2i &p_size) {
+	static Ref<Texture2D> generate_preview_from_image(const Ref<Image>& p_image, const Vector2i& p_size) {
 		if (p_image.is_null() || p_image->is_empty() || p_size.x <= 0 || p_size.y <= 0) {
 			return Ref<Texture2D>();
 		}
@@ -58,14 +59,14 @@ namespace godot {
 	}
 
 	void ResourcePreviewGIFTexture::_bind_methods() {
-		
+
 	}
 
-	bool ResourcePreviewGIFTexture::_handles(const String &p_type) const {
+	bool ResourcePreviewGIFTexture::_handles(const String& p_type) const {
 		return p_type == "GIFTexture";
 	}
 
-	Ref<Texture2D> ResourcePreviewGIFTexture::_generate(const Ref<Resource> &p_resource, const Vector2i &p_size, const Dictionary &p_metadata) const {
+	Ref<Texture2D> ResourcePreviewGIFTexture::_generate(const Ref<Resource>& p_resource, const Vector2i& p_size, const Dictionary& p_metadata) const {
 		Ref<GIFTexture> gif = p_resource;
 		if (gif.is_null() || gif->get_frame_count() == 0) {
 			return Ref<Texture2D>();
@@ -81,12 +82,12 @@ namespace godot {
 			return Ref<Texture2D>();
 		}
 
-		const_cast<Dictionary &>(p_metadata)["dimensions"] = img->get_size();
+		const_cast<Dictionary&>(p_metadata)["dimensions"] = img->get_size();
 
 		return generate_preview_from_image(img, p_size);
 	}
 
-	Ref<Texture2D> ResourcePreviewGIFTexture::_generate_from_path(const String &p_path, const Vector2i &p_size, const Dictionary &p_metadata) const {
+	Ref<Texture2D> ResourcePreviewGIFTexture::_generate_from_path(const String& p_path, const Vector2i& p_size, const Dictionary& p_metadata) const {
 		Ref<FileAccess> file = FileAccess::open(p_path, FileAccess::READ);
 		if (file.is_null()) {
 			return Ref<Texture2D>();
@@ -115,7 +116,7 @@ namespace godot {
 
 		Ref<Image> img = reader->get_image(0);
 		if (img.is_valid()) {
-			const_cast<Dictionary &>(p_metadata)["dimensions"] = img->get_size();
+			const_cast<Dictionary&>(p_metadata)["dimensions"] = img->get_size();
 		}
 		return generate_preview_from_image(img, p_size);
 	}

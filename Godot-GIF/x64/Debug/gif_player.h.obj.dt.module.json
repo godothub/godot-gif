@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Godot-GIF\\x64\\Debug\\gif_player.obj",
+            "outputs": [
+                "Godot-GIF\\x64\\Debug\\gif_player.h.obj.dt.module.json",
+                "Godot-GIF\\x64\\Debug\\gif_player.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Godot-GIF\\x64\\Debug\\resource_preview_gif_texture.obj",
+            "outputs": [
+                "Godot-GIF\\x64\\Debug\\resource_preview_gif_texture.h.obj.dt.module.json",
+                "Godot-GIF\\x64\\Debug\\resource_preview_gif_texture.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

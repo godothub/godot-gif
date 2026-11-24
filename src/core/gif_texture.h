@@ -77,7 +77,7 @@ namespace godot {
 		void set_frame(int p_frame);									// 设置当前显示帧
 		int get_frame() const;											// 获取当前帧索引
 		int get_frame_count() const;									// 获取总帧数
-		
+
 		Ref<ImageTexture> get_frame_texture(int p_frame) const;			// 获取指定帧纹理
 		Ref<ImageTexture> get_current_texture() const;					// 获取当前帧纹理
 

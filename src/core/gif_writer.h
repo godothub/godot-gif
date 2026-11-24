@@ -50,7 +50,7 @@ namespace godot {
 		bool has_screen_desc = false;
 		bool has_image_desc = false;
 		int current_frame = 0;
-		
+
 		// 当前帧状态 (用于 GCB)
 		int frame_left = 0;
 		int frame_top = 0;

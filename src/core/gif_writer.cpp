@@ -1,16 +1,16 @@
 #include "gif_writer.h"
 
 extern "C" {
-int GifQuantizeBuffer(
-	unsigned int Width,
-	unsigned int Height,
-	int *ColorMapSize,
-	const GifByteType *RedInput,
-	const GifByteType *GreenInput,
-	const GifByteType *BlueInput,
-	GifByteType *OutputBuffer,
-	GifColorType *OutputColorMap
-);
+	int GifQuantizeBuffer(
+		unsigned int Width,
+		unsigned int Height,
+		int* ColorMapSize,
+		const GifByteType* RedInput,
+		const GifByteType* GreenInput,
+		const GifByteType* BlueInput,
+		GifByteType* OutputBuffer,
+		GifColorType* OutputColorMap
+	);
 }
 
 namespace godot {
@@ -59,7 +59,7 @@ namespace godot {
 		ClassDB::bind_method(D_METHOD("write_gif", "images", "delays", "loop_count", "quantize"), &GIFWriter::write_gif, DEFVAL(0), DEFVAL(true));
 		ClassDB::bind_static_method("GIFWriter", D_METHOD("save_to_file", "path", "images", "delays", "loop_count", "quantize"), &GIFWriter::save_to_file, DEFVAL(0), DEFVAL(true));
 		ClassDB::bind_static_method("GIFWriter", D_METHOD("save_to_buffer", "images", "delays", "loop_count", "quantize"), &GIFWriter::save_to_buffer, DEFVAL(0), DEFVAL(true));
-		
+
 		ClassDB::bind_method(D_METHOD("add_comment", "comment"), &GIFWriter::add_comment);
 
 		ClassDB::bind_method(D_METHOD("get_frame_count"), &GIFWriter::get_frame_count);
@@ -126,7 +126,7 @@ namespace godot {
 		if (!file_type) {
 			return OPEN_FAILED;
 		}
-		
+
 		return SUCCEEDED;
 	}
 
@@ -141,7 +141,7 @@ namespace godot {
 		if (fa.is_valid()) {
 			// 释放 Godot 文件句柄，这会自动关闭文件
 			fa->flush();
-			fa.unref(); 
+			fa.unref();
 		}
 
 		return SUCCEEDED;
@@ -163,7 +163,7 @@ namespace godot {
 		const int clamped_width = CLAMP(p_width, 1, 65535);
 		const int clamped_height = CLAMP(p_height, 1, 65535);
 		const int clamped_bg = CLAMP(p_background_color, 0, 255);
-		
+
 		// ColorRes: 颜色分辨率位数 (1-8)，默认8位
 		const int color_res = 8;
 
@@ -171,16 +171,17 @@ namespace godot {
 		int err = EGifPutScreenDesc(
 			file_type,
 			clamped_width,
-			clamped_height, 
-		    color_res,
+			clamped_height,
+			color_res,
 			clamped_bg,
 			nullptr
 		);
-		
+
 		if (err == GIF_OK) {
 			has_screen_desc = true;
 			return SUCCEEDED;
-		} else {
+		}
+		else {
 			return WRITER_FAILED;
 		}
 	}
@@ -194,7 +195,7 @@ namespace godot {
 		// 子块大小: 0x03
 		// 循环子块标识: 0x01
 		// 循环次数: 2字节小端序 (0=无限)
-		
+
 		// 写入应用扩展头
 		if (EGifPutExtensionLeader(file_type, APPLICATION_EXT_FUNC_CODE) == GIF_ERROR) {
 			return WRITER_FAILED;
@@ -211,7 +212,7 @@ namespace godot {
 		params[0] = 0x01;  												// 循环子块标识
 		params[1] = p_loop_count & 0xff;								// 循环次数低字节
 		params[2] = (p_loop_count >> 8) & 0xff;							// 循环次数高字节
-		
+
 		if (EGifPutExtensionBlock(file_type, 3, params) == GIF_ERROR) {
 			return WRITER_FAILED;
 		}
@@ -257,11 +258,11 @@ namespace godot {
 	GIFWriter::GIFError GIFWriter::set_color_resolution(const int p_bits) {
 		if (!file_type) return NO_FILE_OPEN;
 		if (has_screen_desc) return HAS_SCRN_DSCR;						// 屏幕描述符已写入，无法修改
-		
+
 		// 颜色分辨率已存储，会在 set_canvas_size 时通过 EGifPutScreenDesc 应用
 		// 这里只做有效性检查
 		if (p_bits < 1 || p_bits > 8) return INVALID_DIMENSIONS;
-		
+
 		return SUCCEEDED;
 	}
 
@@ -362,15 +363,15 @@ namespace godot {
 		// 打包 GCB 并写入
 		char gcb_packed[4];
 		EGifGCBToExtension(&gcb, reinterpret_cast<GifByteType*>(gcb_packed));
-		
+
 		if (EGifPutExtension(file_type, GRAPHICS_EXT_FUNC_CODE, 4, gcb_packed) == GIF_ERROR) {
 			return WRITER_FAILED;
 		}
 
 		// 写入图像描述符
-		if (EGifPutImageDesc(file_type, frame_left, frame_top, 
-		                     frame_width, frame_height, 
-		                     frame_interlace, frame_color_map) == GIF_ERROR) {
+		if (EGifPutImageDesc(file_type, frame_left, frame_top,
+			frame_width, frame_height,
+			frame_interlace, frame_color_map) == GIF_ERROR) {
 			return WRITER_FAILED;
 		}
 
@@ -409,7 +410,7 @@ namespace godot {
 		int bpp = img_rgb->get_format() == Image::FORMAT_RGBA8 ? 4 : 3;
 
 		// 获取使用的调色板
-		ColorMapObject *cmap = frame_color_map ? frame_color_map : file_type->SColorMap;
+		ColorMapObject* cmap = frame_color_map ? frame_color_map : file_type->SColorMap;
 		int color_count = cmap ? cmap->ColorCount : 256;
 
 		if (p_quantize && !cmap) {
@@ -420,10 +421,10 @@ namespace godot {
 			green.resize(pixel_count);
 			blue.resize(pixel_count);
 
-			const uint8_t *pixels_ptr = pixels.ptr();
-			uint8_t *red_ptr = red.ptrw();
-			uint8_t *green_ptr = green.ptrw();
-			uint8_t *blue_ptr = blue.ptrw();
+			const uint8_t* pixels_ptr = pixels.ptr();
+			uint8_t* red_ptr = red.ptrw();
+			uint8_t* green_ptr = green.ptrw();
+			uint8_t* blue_ptr = blue.ptrw();
 
 			for (int i = 0; i < pixel_count; i++) {
 				const int pixel_offset = i * bpp;
@@ -435,15 +436,15 @@ namespace godot {
 			GifColorType output_color_map[256] = {};
 			int color_map_size = 256;
 			if (GifQuantizeBuffer(
-					img_width,
-					img_height,
-					&color_map_size,
-					red.ptr(),
-					green.ptr(),
-					blue.ptr(),
-					indices.ptrw(),
-					output_color_map
-				) == GIF_ERROR) {
+				img_width,
+				img_height,
+				&color_map_size,
+				red.ptr(),
+				green.ptr(),
+				blue.ptr(),
+				indices.ptrw(),
+				output_color_map
+			) == GIF_ERROR) {
 				return WRITER_FAILED;
 			}
 
@@ -479,7 +480,7 @@ namespace godot {
 			cmap = frame_color_map;
 			color_count = cmap ? cmap->ColorCount : 256;
 		}
-		
+
 		// 将图像数据映射到调色板索引
 		for (int y = 0; y < img_height; y++) {
 			for (int x = 0; x < img_width; x++) {
@@ -487,11 +488,11 @@ namespace godot {
 				uint8_t r = pixels[idx];
 				uint8_t g = pixels[idx + 1];
 				uint8_t b = pixels[idx + 2];
-				
+
 				// 查找最近的调色板颜色
 				int best_index = 0;
 				int best_dist = 999999;
-				
+
 				if (cmap) {
 					for (int i = 0; i < color_count; i++) {
 						int dr = r - cmap->Colors[i].Red;
@@ -503,11 +504,12 @@ namespace godot {
 							best_index = i;
 						}
 					}
-				} else {
+				}
+				else {
 					// 无调色板，使用灰度
 					best_index = (r + g + b) / 3;
 				}
-				
+
 				indices[y * img_width + x] = best_index;
 			}
 		}
