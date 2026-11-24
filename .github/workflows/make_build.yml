@@ -1,147 +1,190 @@
-# For syntax, see https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
-# This workflow is triggered manually on the "Actions" tab on GitHub, and can be used to create releases.
+name: Build and Release Godot-GIF
 
-name: Make Godot-GIF GDExtension builds
 on:
+  push:
+    tags: ['v*']
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Version tag to release, for example v1.0.1.
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: godot-gif-release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        # A build is made for every possible combination of parameters
-        # You can add or remove entries from the arrays of each parameter to customize which builds you want to run.
-        # See https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/running-variations-of-jobs-in-a-workflow
-        target:
-          [
-            { platform: linux, arch: x86_64, os: ubuntu-22.04 },
-            { platform: linux, arch: x86_32, os: ubuntu-22.04 },
-            { platform: linux, arch: arm64, os: ubuntu-22.04-arm },
-            { platform: linux, arch: arm32, os: ubuntu-22.04-arm },
-            { platform: windows, arch: x86_64, os: windows-latest },
-            { platform: windows, arch: x86_32, os: windows-latest },
-            { platform: windows, arch: arm64, os: windows-latest },
-            { platform: macos, arch: universal, os: macos-latest },
-            { platform: android, arch: x86_64, os: ubuntu-22.04 },
-            { platform: android, arch: x86_32, os: ubuntu-22.04 },
-            { platform: android, arch: arm64, os: ubuntu-22.04 },
-            { platform: android, arch: arm32, os: ubuntu-22.04 },
-            { platform: ios, arch: arm64, os: macos-latest },
-            { platform: web, arch: wasm32, os: ubuntu-22.04 },
-          ]
-        target-type: [template_debug, template_release]
-        float-precision: [single]
-
-    runs-on: ${{ matrix.target.os }}
+  prepare:
+    name: Resolve release version and commit
+    runs-on: ubuntu-22.04
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      commit: ${{ steps.meta.outputs.commit }}
+      asset: ${{ steps.meta.outputs.asset }}
     steps:
-      # Clone this repository
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
+          fetch-depth: 0
+          persist-credentials: false
 
-      # Add linux x86_32 toolchain
-      - name: Install multilib support
-        if: ${{ matrix.target.platform == 'linux' && matrix.target.arch == 'x86_32' }}
+      - name: Resolve release metadata
+        id: meta
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib
+          set -euo pipefail
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9A-Za-z._-]+$ ]]; then
+            echo "::error::Enter a tag starting with v, using letters, digits, dots, underscores or hyphens."
+            exit 1
+          fi
+          git check-ref-format "refs/tags/$RELEASE_TAG"
+          if git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
+            commit="$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          else
+            commit="$(git rev-parse HEAD)"
+          fi
+          {
+            echo "tag=$RELEASE_TAG"
+            echo "commit=$commit"
+            echo "asset=godot-gif-$RELEASE_TAG.zip"
+          } >> "$GITHUB_OUTPUT"
 
-      # Setup dependencies
-      - name: Setup godot-cpp
-        uses: ./godot-cpp/.github/actions/setup-godot-cpp
+  build:
+    name: ${{ matrix.target.platform }} / ${{ matrix.target.arch }} / ${{ matrix.target-type }}
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - { platform: linux, arch: x86_64, os: ubuntu-22.04 }
+          - { platform: linux, arch: x86_32, os: ubuntu-22.04 }
+          - { platform: linux, arch: arm64, os: ubuntu-22.04-arm }
+          - { platform: linux, arch: arm32, os: ubuntu-22.04-arm }
+          - { platform: windows, arch: x86_64, os: windows-latest }
+          - { platform: windows, arch: x86_32, os: windows-latest }
+          - { platform: windows, arch: arm64, os: windows-latest }
+          - { platform: macos, arch: universal, os: macos-latest }
+          - { platform: android, arch: x86_64, os: ubuntu-22.04 }
+          - { platform: android, arch: x86_32, os: ubuntu-22.04 }
+          - { platform: android, arch: arm64, os: ubuntu-22.04 }
+          - { platform: android, arch: arm32, os: ubuntu-22.04 }
+          - { platform: ios, arch: arm64, os: macos-latest }
+          - { platform: web, arch: wasm32, os: ubuntu-22.04 }
+        target-type: [template_debug, template_release]
+
+    runs-on: ${{ matrix.target.os }}
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.commit }}
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Build Godot-GIF
+        uses: ./.github/actions/build-extension
         with:
           platform: ${{ matrix.target.platform }}
-          em-version: 3.1.62
+          arch: ${{ matrix.target.arch }}
+          target: ${{ matrix.target-type }}
 
-      # Remove committed/pre-existing binaries so each matrix artifact only contains its own build output.
-      - name: Clean bundled binary outputs
-        shell: pwsh
-        run: |
-          $binary_patterns = @("*.dll", "*.so", "*.a", "*.wasm", "*.lib", "*.exp", "*.pdb")
-          foreach ($pattern in $binary_patterns) {
-            Get-ChildItem addons/godot_gif/bin -File -Filter $pattern | Remove-Item -Force
-          }
-          Get-ChildItem addons/godot_gif/bin -Directory -Filter "*.framework" | Remove-Item -Recurse -Force
-
-      # Build GDExtension (with caches)
-
-      - name: Restore .scons_cache
-        uses: ./godot-cpp/.github/actions/godot-cache-restore
-        with:
-          scons-cache: ${{ github.workspace }}/.scons-cache/
-          cache-name: ${{ matrix.target.platform }}_${{ matrix.target.arch }}_${{ matrix.float-precision }}_${{ matrix.target-type }}
-
-      - name: Build Godot-GIF GDExtension
-        shell: sh
+      - name: Stage target library
         env:
-          SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
-        run: |
-          scons target=${{ matrix.target-type }} platform=${{ matrix.target.platform }} arch=${{ matrix.target.arch }} precision=${{ matrix.float-precision }}
+          BUILD_PLATFORM: ${{ matrix.target.platform }}
+          BUILD_ARCH: ${{ matrix.target.arch }}
+          BUILD_TARGET: ${{ matrix.target-type }}
+        run: python scripts/package_addon.py stage artifact "$BUILD_PLATFORM" "$BUILD_ARCH" "$BUILD_TARGET"
+        shell: bash
 
-      - name: Save .scons_cache
-        uses: ./godot-cpp/.github/actions/godot-cache-save
-        with:
-          scons-cache: ${{ github.workspace }}/.scons-cache/
-          cache-name: ${{ matrix.target.platform }}_${{ matrix.target.arch }}_${{ matrix.float-precision }}_${{ matrix.target-type }}
-
-      # Clean up compilation files
-      - name: Windows - Delete compilation files
-        if: ${{ matrix.target.platform == 'windows' }}
-        shell: pwsh
-        run: |
-          Remove-Item addons/godot_gif/bin/* -Include *.exp,*.lib,*.pdb -Force
-
-      # Keep binaries under bin/ in the uploaded artifact.
-      - name: Stage Build Artifact
-        shell: pwsh
-        run: |
-          $stage = Join-Path $env:GITHUB_WORKSPACE "artifact"
-          if (Test-Path $stage) {
-            Remove-Item $stage -Recurse -Force
-          }
-
-          $stage_bin = Join-Path $stage "bin"
-          New-Item -ItemType Directory -Force -Path $stage_bin | Out-Null
-
-          $build_outputs = @(Get-ChildItem addons/godot_gif/bin | Where-Object { $_.Name -like "*${{ matrix.target.platform }}*${{ matrix.target-type }}*" })
-          if ($build_outputs.Count -eq 0) {
-            throw "No build outputs found for ${{ matrix.target.platform }} ${{ matrix.target.arch }} ${{ matrix.target-type }}"
-          }
-
-          foreach ($item in $build_outputs) {
-            Copy-Item -LiteralPath $item.FullName -Destination $stage_bin -Recurse -Force
-          }
-
-      # Upload the build
-      - name: Upload Artifact
+      - name: Upload target library
         uses: actions/upload-artifact@v4
         with:
-          name: godot-gif-${{ matrix.target.platform }}-${{ matrix.target.arch }}-${{ matrix.float-precision }}-${{ matrix.target-type }}
+          name: godot-gif-build-${{ matrix.target.platform }}-${{ matrix.target.arch }}-${{ matrix.target-type }}
           if-no-files-found: error
-          path: |
-            ${{ github.workspace }}/artifact/**
+          overwrite: true
+          path: artifact/
 
-      # Upload addon metadata once so the merged artifact can be copied directly as an addon.
-      - name: Upload Addon Files Artifact
-        if: ${{ matrix.target.platform == 'linux' && matrix.target.arch == 'x86_64' && matrix.target-type == 'template_debug' }}
+  package:
+    name: Verify and package the add-on
+    needs: [prepare, build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout release commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.commit }}
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Download target libraries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: godot-gif-build-*
+          merge-multiple: true
+          path: artifact/
+
+      - name: Verify libraries and assemble the add-on
+        run: python3 scripts/package_addon.py assemble artifact
+
+      - name: Create and verify release archive
+        env:
+          ASSET: ${{ needs.prepare.outputs.asset }}
+        run: python3 scripts/package_addon.py archive artifact "release/$ASSET"
+
+      - name: Upload release archive
         uses: actions/upload-artifact@v4
         with:
-          name: godot-gif-addon-files
-          path: |
-            ${{ github.workspace }}/addons/godot_gif/bin/godot_gif.gdextension
-            ${{ github.workspace }}/addons/godot_gif/bin/icons/**
-            ${{ github.workspace }}/addons/godot_gif/translations/**
+          name: godot-gif-release
+          if-no-files-found: error
+          overwrite: true
+          path: release/${{ needs.prepare.outputs.asset }}
 
-  # Merges all the build artifacts together into a single Godot-GIF artifact.
-  # If you comment out this step, all the builds will be uploaded individually.
-  merge:
+  release:
+    name: Publish GitHub Release
+    needs: [prepare, package]
     runs-on: ubuntu-22.04
-    needs: build
+    permissions:
+      contents: write
     steps:
-      - name: Merge Artifacts
-        uses: actions/upload-artifact/merge@v4
+      - name: Checkout release commit
+        uses: actions/checkout@v4
         with:
-          name: godot-gif
-          pattern: godot-gif-*
-          delete-merged: false
+          ref: ${{ needs.prepare.outputs.commit }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download verified release archive
+        uses: actions/download-artifact@v4
+        with:
+          name: godot-gif-release
+          path: release/
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+          COMMIT: ${{ needs.prepare.outputs.commit }}
+          ASSET: ${{ needs.prepare.outputs.asset }}
+        run: |
+          set -euo pipefail
+          if git show-ref --verify --quiet "refs/tags/$TAG"; then
+            actual_commit="$(git rev-parse "refs/tags/$TAG^{commit}")"
+            if [ "$actual_commit" != "$COMMIT" ]; then
+              echo "::error::The release tag moved while the build was running."
+              exit 1
+            fi
+          fi
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" "release/$ASSET" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            args=("$TAG" "release/$ASSET" --repo "$GITHUB_REPOSITORY" --target "$COMMIT" --generate-notes)
+            if [[ "$TAG" == *-* ]]; then
+              args+=(--prerelease)
+            fi
+            gh release create "${args[@]}"
+          fi

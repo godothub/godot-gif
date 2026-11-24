@@ -1,0 +1,74 @@
+name: Build Godot-GIF
+description: Install the target SDKs and build the Godot-GIF GDExtension with SCons.
+
+inputs:
+  platform:
+    description: SCons target platform.
+    required: true
+  arch:
+    description: SCons target architecture.
+    required: true
+  target:
+    description: SCons build target.
+    required: true
+  precision:
+    description: Godot floating-point precision.
+    default: single
+
+runs:
+  using: composite
+  steps:
+    - name: Install Linux multilib toolchain
+      if: inputs.platform == 'linux' && inputs.arch == 'x86_32'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-multilib g++-multilib
+
+    - name: Install Linux ARM32 toolchain
+      if: inputs.platform == 'linux' && inputs.arch == 'arm32'
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update
+        sudo apt-get install -y g++-arm-linux-gnueabihf
+        # The pinned godot-cpp selects GCC tools by their names on PATH.
+        toolchain="$RUNNER_TEMP/godot-gif-arm32-toolchain"
+        mkdir -p "$toolchain"
+        for tool in gcc g++ ar ranlib; do
+          ln -sf "$(command -v "arm-linux-gnueabihf-$tool")" "$toolchain/$tool"
+        done
+        echo "$toolchain" >> "$GITHUB_PATH"
+
+    - name: Set up godot-cpp
+      uses: ./godot-cpp/.github/actions/setup-godot-cpp
+      with:
+        platform: ${{ inputs.platform }}
+        windows-compiler: msvc
+        em-version: 4.0.11
+        scons-version: 4.11.1
+
+    - name: Remove bundled build outputs
+      shell: bash
+      run: python scripts/package_addon.py clean
+
+    - name: Restore SCons cache
+      uses: ./godot-cpp/.github/actions/godot-cache-restore
+      with:
+        cache-name: gif_${{ inputs.platform }}_${{ inputs.arch }}_${{ inputs.precision }}_${{ inputs.target }}
+
+    - name: Build GDExtension
+      shell: bash
+      env:
+        SCONS_CACHE: ${{ github.workspace }}/.scons-cache/
+        BUILD_PLATFORM: ${{ inputs.platform }}
+        BUILD_ARCH: ${{ inputs.arch }}
+        BUILD_TARGET: ${{ inputs.target }}
+        BUILD_PRECISION: ${{ inputs.precision }}
+      run: |
+        scons "platform=$BUILD_PLATFORM" "arch=$BUILD_ARCH" "target=$BUILD_TARGET" "precision=$BUILD_PRECISION"
+
+    - name: Save SCons cache
+      uses: ./godot-cpp/.github/actions/godot-cache-save
+      with:
+        cache-name: gif_${{ inputs.platform }}_${{ inputs.arch }}_${{ inputs.precision }}_${{ inputs.target }}
