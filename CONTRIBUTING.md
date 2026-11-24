@@ -45,15 +45,17 @@ Use the same commands with the target platform and architecture below. Use a too
 | iOS | `ios` | `arm64` | Xcode with the iOS device SDK |
 | Web | `web` | `wasm32` | Emscripten SDK with `emcc` on `PATH` |
 
-The [GitHub Actions build workflow](.github/workflows/make_build.yml) lists the CI build matrix and packages the libraries together with the add-on files.
+The [GitHub Actions release workflow](.github/workflows/make_build.yml) lists the build matrix and packages the libraries together with the add-on files.
 
 ### Automated builds and releases
 
-Pushes to `main` and pull requests run a Windows x64 debug build. To publish a version, push a tag such as `v1.0.1`, or run **Build and Release Godot-GIF** from the repository's **Actions** tab and enter a tag.
+To publish a version, push a tag such as `v1.0.1`, or run **Build and Release Godot-GIF** from the repository's **Actions** tab and enter a tag.
 
 The release workflow builds all 14 platform and architecture combinations in both debug and release configurations. It verifies every library listed in the GDExtension manifest, then creates `godot-gif-<tag>.zip` with an `addons/godot_gif/` directory containing the libraries, icons, translations, and licenses. The ZIP is attached to a GitHub Release with generated release notes. Tags containing a hyphen, such as `v1.0.1-rc1`, create prereleases.
 
 For a manual run, an existing tag selects that tag's commit. A new tag is created at the commit selected for the workflow run. Each build job uses the same resolved commit. Rerunning the release workflow replaces the ZIP asset for that release.
+
+The release job uses the `GODOT_GIF_RELEASE_TOKEN` Actions secret when it is configured, and otherwise uses `GITHUB_TOKEN`. If GitHub rejects release creation because the target commit changes files under `.github/workflows/`, configure `GODOT_GIF_RELEASE_TOKEN` as a fine-grained personal access token limited to this repository with **Contents: Read and write** and **Workflows: Read and write** permissions.
 
 ## Test in Godot
 
