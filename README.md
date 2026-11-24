@@ -14,10 +14,7 @@ Godot-GIF is a GDExtension plugin for Godot Engine 4.x that provides GIF reading
 
 ## Installation
 
-1. Copy or symlink the `addons/godot_gif/` folder into your Godot project's `addons/` directory
-2. Restart Godot or enable the plugin in Project Settings
-
-For the Simplified Chinese class reference and `GIFPlayer` Inspector labels, select **Simplified Chinese** in **Editor Settings → Interface → Editor → Localization → Editor Language**, then restart the editor. Set **Interface → Inspector → Default Property Name Style** to **Localized** to show translated property names.
+Install from the [Godot Asset Library](https://godotengine.org/asset-library/asset/4931) into your project.
 
 ## Quick Start
 
