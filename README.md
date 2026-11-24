@@ -16,6 +16,8 @@ Godot-GIF is a GDExtension plugin for Godot Engine 4.x that provides GIF reading
 
 Install from the [Godot Asset Library](https://godotengine.org/asset-library/asset/4931) into your project.
 
+GIF importing and resource previews are registered automatically when the GDExtension loads.
+
 ## Quick Start
 
 ### Loading a GIF

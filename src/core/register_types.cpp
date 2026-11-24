@@ -3,6 +3,7 @@
 #include "gif_reader.h"
 #include "gif_writer.h"
 #include "gif_texture.h"
+#include "../editor/gif_editor_plugin.h"
 #include "../editor/gif_editor_translations.h"
 #include "../editor/resource_importer_gif_texture.h"
 #include "../editor/resource_preview_gif_texture.h"
@@ -19,6 +20,9 @@ void initialize_godot_gif_module(ModuleInitializationLevel p_level) {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		GDREGISTER_CLASS(ResourceImporterGIFTexture);
 		GDREGISTER_CLASS(ResourcePreviewGIFTexture);
+		GDREGISTER_INTERNAL_CLASS(GIFEditorPlugin);
+		GIFEditorPlugin::prepare_registration();
+		EditorPlugins::add_by_type<GIFEditorPlugin>();
 		GDREGISTER_INTERNAL_CLASS(GIFEditorTranslationPlugin);
 		EditorPlugins::add_by_type<GIFEditorTranslationPlugin>();
 		return;
@@ -37,6 +41,8 @@ void initialize_godot_gif_module(ModuleInitializationLevel p_level) {
 void uninitialize_godot_gif_module(ModuleInitializationLevel p_level) {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		EditorPlugins::remove_by_type<GIFEditorTranslationPlugin>();
+		EditorPlugins::remove_by_type<GIFEditorPlugin>();
+		GIFEditorPlugin::cleanup_registration();
 		return;
 	}
 

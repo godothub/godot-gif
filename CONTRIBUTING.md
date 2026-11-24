@@ -51,5 +51,5 @@ The [GitHub Actions build workflow](.github/workflows/make_build.yml) lists the 
 
 1. Close the editor before rebuilding or replacing a library that it has loaded.
 2. Copy or symlink the complete `addons/godot_gif/` folder into a test project's `addons/` directory.
-3. Open the project and enable **Godot-GIF** under **Project Settings → Plugins**.
+3. Open the project. The GDExtension automatically registers GIF importing and resource previews.
 4. Add a `.gif` file to the project and check that it imports as a `GIFTexture`. On Godot 4.7, inspect the resource and change `Frame` to check the preview. To check playback, assign the resource to a `GIFPlayer` in a scene and run it.

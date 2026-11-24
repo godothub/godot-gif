@@ -129,8 +129,6 @@ jobs:
         with:
           name: godot-gif-addon-files
           path: |
-            ${{ github.workspace }}/addons/godot_gif/plugin.cfg
-            ${{ github.workspace }}/addons/godot_gif/godot_gif.gd
             ${{ github.workspace }}/addons/godot_gif/bin/godot_gif.gdextension
             ${{ github.workspace }}/addons/godot_gif/bin/icons/**
             ${{ github.workspace }}/addons/godot_gif/translations/**
