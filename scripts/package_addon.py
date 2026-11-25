@@ -80,12 +80,6 @@ def assemble(destination):
     for source in translations:
         copy_file(source, addon / source.relative_to(ADDON))
 
-    for source, filename in (
-        (ROOT / "LICENSE.txt", "LICENSE.txt"),
-        (ROOT / "godot-cpp/LICENSE.md", "godot-cpp-LICENSE.md"),
-        (ROOT / "src/thirdparty/giflib-5.2.2/COPYING", "giflib-LICENSE.txt"),
-    ):
-        copy_file(source, addon / filename)
     print(f"Verified {len(libraries)} libraries in {addon}")
 
 
